@@ -19,7 +19,7 @@ class Solution:
         for s, d, w in B:
             adj[s].append((w, d))
             adj[d].append((w, s))
-        print(adj)
+        #print(adj)
         h = []
         heappush(h, (0, C))
         visited = set()
@@ -32,7 +32,7 @@ class Solution:
             for tw, tn in adj[n]:
                 if tn not in visited:
                     heappush(h, (w + tw, tn))
-        print(nodes)
+        return nodes
 
 
 A = 5
