@@ -13,6 +13,8 @@ Your solution will run on multiple testcases. If you are using global variables 
 #so we will alternatively give 1 and 0 color, if any adj. node has same color then
 #can't be bipartite
 
+import sys
+sys.setrecursionlimit(10**7)
 class Solution:
     #@param node: int -> vertice
     #@param edges: dict -> edges
@@ -20,13 +22,12 @@ class Solution:
     #@return boolean
     def bipartite(self, node, edges, color):
         for c in edges[node]:
-            print("currently node {} color {} child {} color {}".format(node, color[node], c, color[c]))
+            #print("currently node {} color {} child {} color {}".format(node, color[node], c, color[c]))
             if color[c] == -1:
                 color[c] = color[node]^1
                 self.bipartite(c, edges, color)
             else:
                 if color[c] == color[node]:
-                    print("here")
                     self.flag = False
         return
 
@@ -48,12 +49,11 @@ class Solution:
         first = B[0][0]
         color[first] = 0
         self.flag = True
-        self.bipartite(first, edges, color)
+        for i in range(len(B)):
+            self.bipartite(B[i][0], edges, color)
         if self.flag:
             return 1
         else: return 0
-
-
 t = Solution()
 A = 96
 B = [
