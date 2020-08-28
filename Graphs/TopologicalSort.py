@@ -52,11 +52,30 @@ class Solution:
             inD.pop(k)
         return ans
 
-
+#lexographically not sorted not sorted
+class Solution2:
+    def dfs(self, node, edges):
+        self.visited.add(node)
+        for c in edges[node]:
+            if c not in self.visited:
+                self.dfs(c, edges)
+        self.ans.append(node)
+    def solve(self ,A, B):
+        edges = defaultdict(list)
+        for s, d in B:
+            edges[s].append(d)
+        
+        self.visited = set()
+        self.ans = list()
+        for i in range(1, A + 1):
+            if i not in self.visited:
+                self.dfs(i, edges)
+        return list(reversed(self.ans))
 
 
 
 t = Solution()
+t2 = Solution2()
 A = 6
 B = [  [6, 3] ,
         [6, 1] ,
@@ -65,3 +84,4 @@ B = [  [6, 3] ,
         [3, 4] ,
         [4, 2] ]
 print(t.solve(A, B))
+print(t2.solve(A, B))
