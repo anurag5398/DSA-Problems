@@ -52,4 +52,11 @@ class Solution:
 t = Solution()
 A = ["data", "circle", "cricket"]
 B = ["date", "circel", "crikket", "data", "circl"]
-t.solve(A, B)
+
+
+c = 31
+
+for i in range(31):
+    a = i
+    b = 31 - a
+    print("{} {} XOR {}".format(a, b, a^b))
