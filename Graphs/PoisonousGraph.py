@@ -9,6 +9,9 @@ Nodes are labelled from 1 to A.
 """
 import collections
 class Solution:
+    #@param node : int
+    #@param color : list of int
+    #@param edges : dict
     def dfs(self, node, color, edges):
         if self.loop: return
         for c in edges[node]:
@@ -19,7 +22,9 @@ class Solution:
             elif color[c] == color[node]:
                 self.loop = True
 
-
+    #@param A : int
+    #@param B : list of list of int
+    #@return int
     def solve(self, A, B):
         edges = collections.defaultdict(list)
         for s, d in B:
