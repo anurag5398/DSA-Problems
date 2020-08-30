@@ -13,6 +13,10 @@ Your solution will run on multiple testcases. If you are using global variables 
 from heapq import heappush, heappop
 from collections import defaultdict
 class Solution:
+    #@param A : int
+    #@param B : list of list of int
+    #@param C : int
+    #@return list of int
     def  solve(self, A, B, C):
         nodes = [-1 for _ in range(A)]
         adj = defaultdict(list)
@@ -43,4 +47,4 @@ B = [   [0, 3, 4],
         [1, 3, 8]  ] 
 C = 4
 t = Solution()
-t.solve(A, B, C)
+print(t.solve(A, B, C))
