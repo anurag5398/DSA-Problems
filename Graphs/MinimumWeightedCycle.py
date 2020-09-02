@@ -5,50 +5,55 @@ B[i][2].
 Find and return the weight of minimum weighted cycle and if there is no cycle return -1 instead.
 NOTE: Graph may contain multiple edges and self loops.
 """
-#NOT DONE
+#for each edge, exclude that edge and see if any other path is
+#possible between source and destination. If there is then cycle
+#weight would be loop weight + excluded path weight
 from collections import defaultdict
 import heapq
 class Solution:
-    def bfs(self, heap, visited, edges):
-        if not heap: return
-        d, n, p = heapq.heappop(heap)
-        #print("d {} n {} p {}".format(d, n, p))
-        if n in visited:
-            self.bfs(heap, visited, edges)
-        else:
+    def path(self, dest, visited, heap, edges):
+        while heap:
+            w, n = heapq.heappop(heap)
+            if n == dest:
+                #print("Path exists with weight {}".format(w))
+                return w
             visited.add(n)
-            #print(visited)
-            for c, w in edges[n]:
-                #print(heap)
-                if c not in visited:
-                    heapq.heappush(heap, (d + w, c, n))
-                elif c == self.current and p != self.current:
-                    print("loop {} {} dis {}".format(n, self.current, d + w))
-                    return
-            self.bfs(heap, visited, edges)
-                
+            for c in edges[n]:
+                if c[1] not in visited:
+                    heapq.heappush(heap, (c[0] + w, c[1]))
+        return -1
 
+    #@param A : int -> total nodes
+    #@param B : list of list of int -> edges
     def solve(self, A, B):
+        ans = 99999
         edges = defaultdict(list)
         for s, d, w in B:
-            edges[s].append((d, w))
-            edges[d].append((s, w))
-        print(edges)
-        self.loop = 9999
-        for i in range(1, A + 1):
-            self.current = i
-            heap = list()
-            heap.append((0, i, -1))
-            self.bfs(heap, set(), edges)
+            if s == d:
+                ans = min(w, ans)
+            else:
+                edges[s].append((w, d))
+                edges[d].append((w, s))
+        #        
+        for s, d, w in B:
+            if s != d:
+                #print("current edge {} {} w {}".format(s, d, w))
+                heap, visited = list(), set()
+                visited.add(s)
+                for c in edges[s]:
+                    if c[1] != d:
+                        heapq.heappush(heap, c)
+                loopval = self.path(d, visited, heap, edges)
+                if loopval != -1:
+                    ans = min(loopval + w, ans)
+
+        return ans if ans != 99999 else -1
 
 
 
-A = 4
+A = 3
 B = [  [1 ,2 ,2],
-        [2 ,3 ,3],
-        [3 ,4 ,1],
-        [4 ,1 ,4],
-        [1 ,3 ,15]  ]
+        [2 ,3 ,3]  ]
 
 t = Solution()
 print(t.solve(A, B))
