@@ -5,6 +5,10 @@ There is a ball trapped in a maze. The ball can go through empty spaces by rolli
 Given two array of integers of size B and C of size 2 denoting the starting and destination position of the ball.
 Find the shortest distance for the ball to stop at the destination. The distance is defined by the number of empty spaces traveled by the ball from the starting position (excluded) to the destination (included). If the ball cannot stop at the destination, return -1.
 """
+#Solution1 is just for fun, has huge TC (due to lot of functions and adding to visited while popping and not while pushing)
+
+
+
 from collections import defaultdict
 from heapq import heappop, heappush
 class Node:
@@ -48,7 +52,6 @@ class Solution:
             if td != 0:
                 if tnode not in self.visited:
                     heappush(heap, (d + td, tnode, self.nodesub(tnode, cn)))
-                    self.visited(tnode)
 
     def solve(self, A, B, C):
         self.A = A
@@ -61,6 +64,7 @@ class Solution:
         while h:
             d, n, p = heappop(h)
             #self.visited.add(n)
+            #print(d)
             if d > totalcells//2: return -1
             self.move(n, p, d, h)
         
@@ -68,12 +72,17 @@ class Solution:
 
 
 class Solution2:
+    #@param i, j: int
+    #@return bool
     def isavail(self, i, j):
         if i < 0 or i >= self.n: return False
         if j < 0 or j >= self.m: return False
         if self.A[i][j] == 1: return False
         return True
 
+    #@param A : list of list of int
+    #@param B, C : list of int
+    #@return int  
     def solve(self, A, B, C):
         self.A = A
         self.n, self.m = len(A), len(A[0])
