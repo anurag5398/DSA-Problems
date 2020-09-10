@@ -6,26 +6,33 @@ Each move, you may take an egg (if you have an unbroken one) and drop it from an
 Your goal is to know with certainty what the value of C is.
 What is the minimum number of moves that you need to know with certainty what C is, regardless of the initial value of C
 """
+#consider for each floor we have 2 choice: egg breaks and does not break
+#if breaks dp[egg - 1][floor - 1] (below part of that floor and one less egg)
+#dosent break dp[egg][length of building - floor] (same number of eggs and the upper half of the building)
+
+#Now start with building of height 2 (1 and 0 base case), and built the building for each number of eggs
+
+
 
 class Solution:
     #@param A : int -> eggs
     #@param B : int -> floors
     #@return int
     def solve(self, A, B):
-        dp = [[0 for _ in range(B + 1)] for _ in range(A + 1)]
-        for f in range(1, B + 1):
-            dp[1][f] = f
-        for e in range(1, A + 1):
-            dp[e][1] = 1
-
-        for eggs in range(2, A + 1):
+        dp = [[0 for _ in range(B + 1)] for _ in range(A)]
+        for floor in range(B + 1):
+            dp[0][floor] = floor
+        for eggs in range(A):
+            dp[eggs][1] = 1
+            dp[eggs][0] = 0
+        
+        for egg in range(1, A):
             for floor in range(2, B + 1):
-                dp[eggs][floor] = float('inf')
-                for bfloor in range(1, floor + 1):
-                    temp = 1 + max(dp[eggs - 1][bfloor - 1], dp[eggs][floor - bfloor])
-                    if temp < dp[eggs][floor]: dp[eggs][floor] = temp
-        print(dp)
-        return dp[A][B]
+                dp[egg][floor] = float('inf')
+                for dropfloor in range(1, floor):
+                    dp[egg][floor] = min(1 + max(dp[egg-1][dropfloor-1], dp[egg][floor-dropfloor]), dp[eggs][floor])
 
+        print(dp)
+        return dp[A-1][B]
 t = Solution()
-print(t.solve(2, 10))
+print(t.solve(3, 14))
