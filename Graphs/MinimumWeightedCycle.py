@@ -11,6 +11,11 @@ NOTE: Graph may contain multiple edges and self loops.
 from collections import defaultdict
 import heapq
 class Solution:
+    #@param dest : int -> node to reach
+    #@param visited : set
+    #@param heap : heapq
+    #@param edges : defaultdict
+    #@return int
     def path(self, dest, visited, heap, edges):
         while heap:
             w, n = heapq.heappop(heap)
