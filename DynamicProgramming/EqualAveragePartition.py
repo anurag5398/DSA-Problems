@@ -7,30 +7,48 @@ NOTE 3: Array will contain only non negative numbers.
 """
 
 class Solution:
-    def findsubset(self, reqSum, length):
-        dp = [[False for _ in range(reqSum + 1)] for _ in range(self.n + 1)]
-        parent = [[(-1, -1) for _ in range(reqSum + 1)] for _ in range(self.n + 1)]
-        for i in range(self.n + 1):
-            dp[i][0] = True
-
-        for i in range(1, self.n + 1):
-            for j in range(1, reqSum + 1):
-                dp[i][j] = dp[i-1][j] or dp[i-1][j-self.A[i-1]]
-        print(dp)
+    def findarray(self, dp, A, i, j):
+        ans = []
+        popped = []
+        while j > 0:
+            ans.append(A[i - 1])
+            popped.append(i - 1)
+            while dp[i - 1][j] is True:
+                i-=1
+            j-= A[i - 1]
+            i-=1
+        print(ans)
+        return len(ans)
+        
             
 
     def solve(self, A):
-        total = 0
-        self.n = len(A)
-        self.A = A
-        for i in A:
-            total+=i
-        avg = total/self.n
-        if int(avg) != avg: return []
-
-        for length in range(self.n//2):
-            reqSum = avg * length
-            self.findsubset(reqSum, length)
+        A = sorted(A)
+        n = len(A)
+        avg = sum(A)//n
+        totalSum = avg * (n//2)
+        dp = [[False for _ in range(totalSum + 1)] for _ in range(n + 1)]
+        for i in range(n + 1):
+            dp[i][0] = True
+        
+        for i in range(1, n + 1):
+            for j in range(1, totalSum + 1):
+                dp[i][j] = dp[i - 1][j]
+                if j - A[i-1] >= 0:
+                    dp[i][j] = dp[i][j] or dp[i - 1][j - A[i-1]]
+        
+        
+        for avgindex in range(1, n//2):
+            tempsum = avg*avgindex
+            print(tempsum, avg, avgindex)
+            for i in range(n + 1):
+                if dp[i][tempsum] is True:
+                    l = self.findarray(dp, A, i, tempsum)
+                    if l == avgindex:
+                        print("found",l)
+            else: continue
+            break
+        
 
 
 
