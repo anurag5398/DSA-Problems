@@ -83,7 +83,7 @@ class DoublyQueue:
             return self.q[self.r]
 
 
-class Solution:
+class Solution2:
     def solve(self, A, B):
         ans = 0
         #maxA, minA = [], []
@@ -120,7 +120,38 @@ class Solution:
             ans = (ans + qmax.rear() + qmin.rear())%1000000007
         return ans
         
+from collections import deque
+
+class Solution:
+    def solve(self, A: list, B: int) -> int:
+        maxq, minq = deque(), deque()
+        ans = 0
+        for i in range(B):
+            while maxq and maxq[-1] < A[i]:
+                maxq.pop()
+            while minq and minq[-1] > A[i]:
+                minq.pop()
+            maxq.append(A[i])
+            minq.append(A[i])
+        ans+= (maxq[0] + minq[0])
+        for i in range(B, len(A)):
+            last, new = A[i - B], A[i]
+            if maxq[0] == last: maxq.popleft()
+            if minq[0] == last: minq.popleft()
+            while maxq and maxq[-1] < new:
+                maxq.pop()
+            while minq and minq[-1] > new:
+                minq.pop()
+            maxq.append(new)
+            minq.append(new)
+            ans = (ans + (maxq[0] + minq[0]))%(10**9 + 7)
+        return ans
+
+
+
+
 
 a = Solution()
-A = [5, -1, -1, 2, 2, 5, 2]
-print(a.solve(A, 2))    
+A = [2, 5, -1, 7, -3, -1, -2]
+B = 4
+print(a.solve(A, B))    
