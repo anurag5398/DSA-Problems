@@ -17,4 +17,4 @@ class Solution:
         return dp[A]
 
 t = Solution()
-print(t.numTrees(18))
+print(t.numTrees(2))
