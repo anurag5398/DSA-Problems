@@ -123,6 +123,9 @@ class Solution2:
 from collections import deque
 
 class Solution:
+    #@param A: list of int
+    #@param B: int
+    #@return int
     def solve(self, A: list, B: int) -> int:
         maxq, minq = deque(), deque()
         ans = 0
