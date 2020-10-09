@@ -1,6 +1,6 @@
 
 #SINGLETON
-#JUST because we are assigning __dict__ value, all instance point to same
+#__shared__ is a shared component for all instances
 #MONOSTATE 
 class Test:
     __shared = dict()
