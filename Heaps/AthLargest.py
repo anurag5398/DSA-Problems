@@ -5,9 +5,6 @@ NOTE: If any subarray [1 : i] has less than A elements then output array should 
 """
 import heapq
 class Solution:
-    #@param A: int
-    #@param B: list of int
-    #@return list of int
     def solve(self, A: int, B: list) -> list:
         n = len(B)
         heap = list()

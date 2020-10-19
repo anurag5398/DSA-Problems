@@ -6,7 +6,7 @@ NOTE 2: If multiple solutions exist, return the solution where length(A) is mini
 NOTE 3: Array will contain only non negative numbers.
 """
 
-class Solution2:
+class Solution:
     def findarray(self, dp, A, i, j):
         ans = []
         popped = []
@@ -50,11 +50,6 @@ class Solution2:
             break
         
 
-class Solution:
-    def solve(self, A):
-        size = len(A)
-        totalsum = sum(A)
-        
 
 
 A = [1, 7, 15, 29, 11, 9]
