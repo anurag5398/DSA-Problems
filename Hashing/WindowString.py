@@ -6,100 +6,64 @@ If there is no such window in A that covers all characters in B, return the empt
 If there are multiple such windows, return the first occurring minimum window ( with minimum start index )
 """
 
-def dictadd(value, tempdict):
-    if value in tempdict:
-        tempdict[value]+=1
-    else:
-        tempdict[value] = 1
-
-def dictremove(value, tempdict):
-    if value in tempdict:
-        tempdict[value]-=1
-
-class Solution2:
-    def check(self, i, j):
-        for key in self.pattern.keys():
-            if key not in self.string:
-                self.flag = False
-                return
-            if self.string[key] < self.pattern[key]:
-                self.flag = False
-                return
-        self.flag = True
-        if (j-i) < self.minval:
-            self.minval = j-i
-            self.ival, self.jval = i, j
-        #print(i,j)
-        return
-
-
-    def minWindow(self, A, B):
-        self.pattern = dict()
-        for i in B:
-            dictadd(i, self.pattern)
-        self.minval, self.ival, self.jval = 999999, -1, -1
-
-        self.string = dict()
-        i, j, self.flag = 0, -1, False
-        while True:
-            if self.flag is False:
-                while self.flag is False:
-                    j+=1
-                    if j == len(A):
-                        if self.jval == -1:
-                            return ""
-                        else:
-                            return A[self.ival:self.jval+1]
-                    if A[j] in B:
-                        dictadd(A[j], self.string)
-                        self.check(i, j)
-            else:
-                dictremove(A[i], self.string)
-                i+=1
-                while A[i] not in B:
-                    i+=1
-                    if i == len(A):
-                        if self.jval == -1:
-                            return ""
-                        else:
-                            return A[self.ival:self.jval+1]
-                self.check(i, j)
-
-
 from collections import defaultdict
-class Solution:
-    def check(self, dict1: defaultdict, dict2: defaultdict) -> bool:
-        for k, v in dict1.items():
-            if dict2[k] < v: return False
-        return True
 
-    #@param A: str
-    #@param B: str
-    #@return str
-    def minWindow(self, A: str, B: str) -> str:
-        pattern = defaultdict(int)
-        for c in B:
-            pattern[c]+=1
-        print(pattern)
-        word = defaultdict(int)
-        setFlag = False
-        i, j = -1, -1
-        while j + 1 < len(A) and i + 1 < len(A):
-            if setFlag is False:
-                j+=1
-                if A[j] in pattern:
-                    word[A[j]]+=1
-                    if self.check(pattern, word): 
-                        print(i, j)
-                        setFlag = True
-            else:
+class Solution:
+    #@param string : string
+    #@param i, j : int
+    def formans(self, string, i, j):
+        if (j - i) < self.minans:
+            self.minans = j - i
+            self.ans = string
+        
+    #@param A : string
+    #@param B : string
+    #@return string
+    def minWindow(self, A, B):
+        if len(B) == 0: return ""
+        if len(B) == 1:
+            if B in A: return B
+            else: return ""
+        Bchar = defaultdict(int)
+        for i in B:
+            Bchar[i]+=1
+        self.ans = ""
+        self.minans = float('inf')
+        completed = set()
+        lenBchar = len(Bchar)
+        lenCompleted = 0
+        Achar = defaultdict(int)
+        i, j = 0, 0
+        Achar[A[0]]+=1
+        n = len(A)
+        while i < n and j < n:
+            if lenCompleted == lenBchar:
+                self.formans(A[i:j+1], i, j)
+                remove = A[i]
                 i+=1
-                if A[i] in pattern:
-                    word[A[i]]-=1
-                    if self.check(pattern, word):
-                        print(i, j)
-                    else:
-                        setFlag = False
+                if remove in Bchar:
+                    Achar[remove]-=1
+                    if Achar[remove] < Bchar[remove]:
+                        completed.remove(remove)
+                        lenCompleted-=1
+            else:
+                j+=1
+                if j < n:
+                    addele = A[j]
+                    if addele in Bchar:
+                        Achar[addele]+=1
+                        if Achar[addele] >= Bchar[addele] and addele not in completed:
+                            completed.add(addele)
+                            lenCompleted+=1
+        if lenCompleted == lenBchar:
+            self.formans(A[i:j+1], i, j)
+        return self.ans
+                            
+                            
+        
+            
+        
+
 
 
         
